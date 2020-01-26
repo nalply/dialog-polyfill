@@ -284,8 +284,9 @@ dialogPolyfillInfo.prototype = {
     if (this.dialog_.hasAttribute('open')) {
       throw new Error('Failed to execute \'showModal\' on dialog: The element is already open, and therefore cannot be opened modally.');
     }
-    if (!document.body.contains(this.dialog_)) {
-      throw new Error('Failed to execute \'showModal\' on dialog: The element is not in a Document.');
+    var root = this.dialog_.getRootNode ? this.dialog_.getRootNode() : document.body;
+    if (!root.contains(this.dialog_)) {
+      throw new Error('Failed to execute \'showModal\' on dialog: The element is not in a Document nor a shadow root.');
     }
     if (!dialogPolyfill.dm.pushDialog(this)) {
       throw new Error('Failed to execute \'showModal\' on dialog: There are too many open modal dialogs.');
